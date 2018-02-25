@@ -36,9 +36,31 @@ find_library( # Sets the name of the path variable.
 # can link multiple libraries, such as libraries you define in this
 # build script, prebuilt third-party libraries, or system libraries.
 
+
+### OpenCL settings ###
+#reference http://mushuichuan.com/2017/06/11/cmake/
+#http://www.voidcn.com/article/p-chmxbyff-boa.html
+
+include_directories(${CMAKE_SOURCE_DIR}/src/main/cpp/opencl/include)
+
+add_library(opencl SHARED IMPORTED )
+
+set_target_properties(opencl
+  PROPERTIES IMPORTED_LOCATION
+  ${CMAKE_SOURCE_DIR}/src/main/jniLibs/${ANDROID_ABI}/libOpenCL.so)
+
+
+#set_target_properties(opencl
+#    PROPERTIES IMPORTED_LOCATION
+#    ${CMAKE_SOURCE_DIR}/src/main/cpp/opencl/libs/opencl.so)
+
+#find_library(${CMAKE_SOURCE_DIR}/src/main/cpp/opencl/libs/opencl.so opencl)
+#find_library( opencl-lib opencl )
+
+
 target_link_libraries( # Specifies the target library.
                        native-lib
 
                        # Links the target library to the log library
                        # included in the NDK.
-                       ${log-lib} )
+                       ${log-lib} opencl)
